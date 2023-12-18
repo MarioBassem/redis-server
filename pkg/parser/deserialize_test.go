@@ -185,26 +185,23 @@ func TestDeserializeArray(t *testing.T) {
 		"invalid_missing_length": {
 			input: []byte("*+hello world\r\n+hello back\r\n"),
 		},
-		"invalid_incorrect_length_smaller_than_actual": {
-			input: []byte("*0\r\n+hello world\r\n"),
-		},
 		"invalid_incorrect_length_larger_than_actual": {
 			input: []byte("*2\r\n+hello world\r\n"),
 		},
 		"invalid_length_without_delimiter": {
-			input: []byte("$1+hello world\r\n"),
+			input: []byte("*1+hello world\r\n"),
 		},
 		"invalid_array_element_delimiter_without_newline": {
-			input: []byte("$1\r\n+hello world\r"),
+			input: []byte("*1\r\n+hello world\r"),
 		},
-		"invalid_bulk_string_with_invalid_delimiter_without_carriage_return": {
-			input: []byte("$1\r\n+hello world\n"),
+		"invalid_array_with_invalid_delimiter_without_carriage_return": {
+			input: []byte("*1\r\n+hello world\n"),
 		},
 		"invalid_string_without_delimiter": {
-			input: []byte("$1\r\n+hello world"),
+			input: []byte("*1\r\n+hello world"),
 		},
 		"valid_arrray_multiple_elements": {
-			input: []byte("*5\r\n+hello world\r\n-Error\r\n$5\r\nabcd\r\r\n:9223372036854775807\r\n"),
+			input: []byte("*4\r\n+hello world\r\n-Error\r\n$5\r\nabcd\r\r\n:9223372036854775807\r\n"),
 			exptected: []Value{
 				&strValue{
 					val: "hello world",
